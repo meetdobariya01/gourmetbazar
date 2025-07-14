@@ -22,12 +22,11 @@ root.render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/aboutus" element={<Aboutus />} />
-        <Route path="/contactus" element={<Contactus/>} />
-        <Route path="/login" element={<Loginpage/>} />
-        <Route path="/signup" element={<Singup/>} />
-        <Route path="/privacypolicy" element={<Privacypolicy/>} />
-        <Route path="/termsandconditions" element={<Termsandcondition/>} />
-        
+        <Route path="/contactus" element={<Contactus />} />
+        <Route path="/login" element={<Loginpage />} />
+        <Route path="/signup" element={<Singup />} />
+        <Route path="/privacypolicy" element={<Privacypolicy />} />
+        <Route path="/termsandconditions" element={<Termsandcondition />} />
 
       </Routes>
     </Router>
