@@ -1,68 +1,160 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Signup = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobileNumber: '',
-    password: '',
-    confirmPassword: ''
-  });
+const API_BASE_URL = "http://localhost:5000"; // backend port
 
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage('');
-    setError('');
-
-    if (formData.password !== formData.confirmPassword) {
-      return setError('Passwords do not match');
-    }
-
-    try {
-      const { confirmPassword, ...dataToSend } = formData;
-      const res = await axios.post('http://localhost:5000/api/user/register', dataToSend, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      setMessage(res.data.message);
-      setFormData({
-        firstName: '',
-        lastName: '',
+const OtpSignupForm = () => {
+    const [step, setStep] = useState(1);
+    const [mobile, setMobile] = useState('');
+    const [otp, setOtp] = useState('');
+    const [formData, setFormData] = useState({
+        fname: '',
+        lname: '',
         email: '',
-        mobileNumber: '',
         password: '',
-        confirmPassword: ''
-      });
-    } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed');
-    }
-  };
+        role: ''
+    });
 
-  return (
-    <div style={{ maxWidth: '400px', margin: '0 auto' }}>
-      <h2>Sign Up</h2>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} required /><br />
-        <input name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} required /><br />
-        <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required /><br />
-        <input name="mobileNumber" placeholder="Mobile Number" value={formData.mobileNumber} onChange={handleChange} required /><br />
-        <input name="password" type="password" placeholder="Password" value={formData.password} onChange={handleChange} required /><br />
-        <input name="confirmPassword" type="password" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required /><br />
-        <button type="submit">Register</button>
-      </form>
-    </div>
-  );
+    const [message, setMessage] = useState('');
+
+    const inputStyle = {
+        display: 'block',
+        marginBottom: '12px',
+        width: '100%',
+        padding: '10px',
+        fontSize: '14px',
+        border: '1px solid #ccc',
+        borderRadius: '6px',
+    };
+
+    const buttonStyle = {
+        padding: '10px 20px',
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
+        fontSize: '14px',
+        marginTop: '5px'
+    };
+
+    const containerStyle = {
+        maxWidth: '400px',
+        margin: '50px auto',
+        padding: '30px',
+        border: '1px solid #ddd',
+        borderRadius: '10px',
+        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+        fontFamily: 'Arial, sans-serif'
+    };
+
+    const handleSendOtp = async () => {
+        try {
+            const res = await axios.post(`${API_BASE_URL}/send-otp`, { mobile });
+            setMessage(res.data.message);
+            setStep(2);
+        } catch (err) {
+            setMessage(err.response?.data?.message || "Error sending OTP.");
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        try {
+            const res = await axios.post(`${API_BASE_URL}/verify-otp`, { mobile, Otp: otp });
+            setMessage(res.data.message);
+            setStep(3);
+        } catch (err) {
+            setMessage(err.response?.data?.message || "Error verifying OTP.");
+        }
+    };
+
+    const handleSignup = async () => {
+        try {
+            const res = await axios.post(`${API_BASE_URL}/signup`, {
+                ...formData,
+                role: formData.role?.toLowerCase() || 'user',
+                mobile
+            });
+            setMessage(res.data.message);
+        } catch (err) {
+            setMessage(err.response?.data?.message || "Signup failed.");
+        }
+    };
+
+    return (
+        <div style={containerStyle}>
+            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>User Signup</h2>
+
+            {step === 1 && (
+                <>
+                    <input
+                        type="text"
+                        placeholder="Enter mobile number"
+                        value={mobile}
+                        onChange={e => setMobile(e.target.value)}
+                        style={inputStyle}
+                    />
+                    <button onClick={handleSendOtp} style={buttonStyle}>Send OTP</button>
+                </>
+            )}
+
+            {step === 2 && (
+                <>
+                    <input
+                        type="text"
+                        placeholder="Enter OTP"
+                        value={otp}
+                        onChange={e => setOtp(e.target.value)}
+                        style={inputStyle}
+                    />
+                    <button onClick={handleVerifyOtp} style={buttonStyle}>Verify OTP</button>
+                </>
+            )}
+
+            {step === 3 && (
+                <>
+                    <input
+                        type="text"
+                        placeholder="First Name"
+                        value={formData.fname}
+                        onChange={e => setFormData({ ...formData, fname: e.target.value })}
+                        style={inputStyle}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Last Name"
+                        value={formData.lname}
+                        onChange={e => setFormData({ ...formData, lname: e.target.value })}
+                        style={inputStyle}
+                    />
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={e => setFormData({ ...formData, email: e.target.value })}
+                        style={inputStyle}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={e => setFormData({ ...formData, password: e.target.value })}
+                        style={inputStyle}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Role (optional)"
+                        value={formData.role}
+                        onChange={e => setFormData({ ...formData, role: e.target.value })}
+                        style={inputStyle}
+                    />
+                    <button onClick={handleSignup} style={buttonStyle}>Sign Up</button>
+                </>
+            )}
+
+            {message && <p style={{ marginTop: '20px', color: '#007BFF' }}>{message}</p>}
+        </div>
+    );
 };
 
-export default Signup;
+export default OtpSignupForm;
