@@ -8,7 +8,10 @@ import Footer from "../../component/footer/footer";
 export const Contactus = () => {
   return (
     <div>
+      {/* header import */}
       <Header />
+
+      {/* contactus-banner-section */}
       {/* banner-section */}
       <div className="position-relative text-center py-5 bg-light">
         {/* Left Image */}
