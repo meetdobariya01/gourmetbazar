@@ -1,109 +1,37 @@
-import React, { useState } from "react";
-import Header from "../../component/header/header";
-import Footer from "../../component/footer/footer";
-import axios from "axios";
+// src/components/LoginForm.js
+import React, { useState } from 'react';
+import api from '../api/api';
 
-const Loginpage = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [formErrors, setFormErrors] = useState({});
+const LoginForm = () => {
+    const [form, setForm] = useState({ email: '', password: '', role: '' });
+    const [token, setToken] = useState('');
+    const [message, setMessage] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setFormErrors({ ...formErrors, [e.target.name]: "" });
-  };
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errors = {};
-    if (!formData.email.trim()) errors.email = "Email is required";
-    if (!formData.password.trim()) errors.password = "Password is required";
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await api.post('/users/login', form);
+            setToken(res.data.token);
+            setMessage(res.data.message);
+        } catch (err) {
+            setMessage(err.response?.data?.message || 'Login failed');
+        }
+    };
 
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-      return;
-    }
-
-    try {
-      const response = await axios.post("/api/login", formData);
-      console.log("Login successful:", response.data);
-      localStorage.setItem("token", response.data.token);
-    } catch (error) {
-      console.error("Login failed:", error);
-      setFormErrors({ api: "Login failed. Please try again." });
-    }
-  };
-
-
-  return (
-    <div>
-      {/* Header Component */}
-      <Header />
-
-      {/* Login Form */}
-      <div className="container d-flex align-items-center justify-content-center my-5">
-        <div className="w-100" style={{ maxWidth: "400px" }}>
-          <div className="card shadow">
-            <div className="card-body p-4">
-              <h3 className="text-center mb-4">Login</h3>
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email address
-                  </label>
-                  <input
-                    type="email"
-                    className={`form-control ${
-                      formErrors.email ? "is-invalid" : ""
-                    }`}
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email"
-                    required
-                  />
-                  {formErrors.email && (
-                    <div className="invalid-feedback">{formErrors.email}</div>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className={`form-control ${
-                      formErrors.password ? "is-invalid" : ""
-                    }`}
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Enter your password"
-                    required
-                  />
-                  {formErrors.password && (
-                    <div className="invalid-feedback">
-                      {formErrors.password}
-                    </div>
-                  )}
-                </div>
-                <button type="submit" className="btn btn-primary w-100">
-                  Login
-                </button>
-              </form>
-              <div className="text-center mt-4">
-                <a href="/signup">Create a new account</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer or additional content can go here */}
-      <Footer />
-    </div>
-  );
+    return (
+        <form onSubmit={handleSubmit}>
+            <input name="email" placeholder="Email" onChange={handleChange} />
+            <input name="password" type="password" placeholder="Password" onChange={handleChange} />
+            <input name="role" placeholder="Role" onChange={handleChange} />
+            <button type="submit">Login</button>
+            <p>{message}</p>
+            {token && <p>Token: {token}</p>}
+        </form>
+    );
 };
 
-export default Loginpage;
+export default LoginForm;
