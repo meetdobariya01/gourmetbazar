@@ -10,7 +10,7 @@ export const Banner = () => {
         <div className="row align-items-center">
           
           {/* Left Content */}
-          <motion.div 
+          {/* <motion.div 
             className="col-md-6"
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
@@ -20,7 +20,7 @@ export const Banner = () => {
             <h1 className="fw-bold display-5">
               Quick Delivery <span className="text-success">to Your Home</span>
             </h1>
-            <p className="lead text-muted mt-3">
+            <p className="lead text-muted mt-3"> */}
               Choose your daily products from our shop and get special discounts on delivery. 
               See our latest offers and grab your favorites now!
             </p>
