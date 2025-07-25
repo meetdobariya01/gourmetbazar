@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import { FaShoppingBag, FaBell, FaShoppingCart, FaUser, FaPhoneAlt } from "react-icons/fa";
 // import { IoMdSearch } from "react-icons/io";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { Dropdown } from "react-bootstrap";
+import { FaUser } from "react-icons/fa";
 import {
   Container,
   Navbar,
@@ -13,7 +15,7 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import { FaBell, FaShoppingCart, FaUser, FaPhone } from "react-icons/fa";
+import { FaBell, FaShoppingCart, FaPhone } from "react-icons/fa";
 
 export const Header = () => {
   return (
@@ -36,7 +38,7 @@ export const Header = () => {
             <a href="#account" className="text-decoration-none text-dark">
               My Account
             </a>
-            <a href="#login" className="text-decoration-none text-dark">
+            <a href="/login" className="text-decoration-none text-dark">
               Login
             </a>
           </div>
@@ -73,9 +75,21 @@ export const Header = () => {
                 0
               </span>
             </Nav.Link>
-            <Nav.Link href="#profile">
-              <FaUser size={18} color="black" />
-            </Nav.Link>
+            <Dropdown className="user-dropdown">
+              <Dropdown.Toggle
+                variant="link"
+                className="dropdown-toggle-icon"
+                id="dropdown-basic"
+              >
+                <FaUser size={20} color="black" />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu align="end">
+                <Dropdown.Item href="/login">Login</Dropdown.Item>
+                <Dropdown.Item href="/signup">Signup</Dropdown.Item>
+                <Dropdown.Item href="/#">Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

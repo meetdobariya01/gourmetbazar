@@ -9,6 +9,8 @@ import { Home } from './component/home/home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Aboutus from './pages/aboutus/aboutus';
 import Contactus from './pages/contactus/contactus';
+import Loginpage from './pages/loginpage/loginpage';
+import Singup from './pages/signup/singup';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -19,7 +21,8 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="/aboutus" element={<Aboutus />} />
         <Route path="/contactus" element={<Contactus/>} />
-       
+        <Route path="/login" element={<Loginpage/>} />
+        <Route path="/signup" element={<Singup/>} />
         
 
       </Routes>
