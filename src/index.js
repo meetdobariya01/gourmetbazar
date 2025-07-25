@@ -14,6 +14,7 @@ import Singup from "./pages/signup/singup";
 import Privacypolicy from "./pages/privacypolicy/privacypolicy";
 import Termsandcondition from "./pages/terms-condition/termsandcondition";
 import Faqs from "./pages/faqs/faqs";
+import Checkout from "./pages/checkout/checkout";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -28,6 +29,7 @@ root.render(
       <Route path="/privacypolicy" element={<Privacypolicy />} />
       <Route path="/termsandconditions" element={<Termsandcondition />} />
       <Route path="/faqs" element={<Faqs />} />
+      <Route path="/checkout" element={<Checkout/>} />
     </Routes>
   </Router>
 );
