@@ -120,10 +120,10 @@ export const Header = () => {
               </Nav.Link>
             </Nav>
             <div className="d-flex gap-3 small">
-              <a href="#privacy" className="text-decoration-none text-dark">
+              <a href="/privacypolicy" className="text-decoration-none text-dark">
                 Privacy Policy
               </a>
-              <a href="#terms" className="text-decoration-none text-dark">
+              <a href="/termsandconditions" className="text-decoration-none text-dark">
                 Terms & Conditions
               </a>
               <span className="d-inline-flex align-items-center">

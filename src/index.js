@@ -11,6 +11,8 @@ import Aboutus from './pages/aboutus/aboutus';
 import Contactus from './pages/contactus/contactus';
 import Loginpage from './pages/loginpage/loginpage';
 import Singup from './pages/signup/singup';
+import Privacypolicy from './pages/privacypolicy/privacypolicy';
+import Termsandcondition from './pages/terms-condition/termsandcondition';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -23,6 +25,8 @@ root.render(
         <Route path="/contactus" element={<Contactus/>} />
         <Route path="/login" element={<Loginpage/>} />
         <Route path="/signup" element={<Singup/>} />
+        <Route path="/privacypolicy" element={<Privacypolicy/>} />
+        <Route path="/termsandconditions" element={<Termsandcondition/>} />
         
 
       </Routes>
