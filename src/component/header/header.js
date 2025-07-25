@@ -66,10 +66,8 @@ export const Header = () => {
             />
           </Form>
           <Nav className="ms-auto align-items-center">
-            <Nav.Link href="#notifications">
-              <FaBell size={18} color="black" />
-            </Nav.Link>
-            <Nav.Link href="#cart" className="position-relative">
+           
+            <Nav.Link href="/checkout" className="position-relative">
               <FaShoppingCart size={18} color="black" />
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 0
@@ -126,14 +124,7 @@ export const Header = () => {
               <a href="/termsandconditions" className="text-decoration-none text-dark">
                 Terms & Conditions
               </a>
-              <span className="d-inline-flex align-items-center">
-                <img
-                  src="https://flagcdn.com/w40/kw.png"
-                  alt="Kuwait Flag"
-                  width="20"
-                  className="me-1"
-                />
-              </span>
+             
             </div>
           </Navbar.Collapse>
         </Container>
