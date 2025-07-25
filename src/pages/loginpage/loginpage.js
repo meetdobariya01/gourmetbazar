@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../../component/header/header";
 import Footer from "../../component/footer/footer";
+import axios from "axios";
 
 const Loginpage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -11,7 +12,7 @@ const Loginpage = () => {
     setFormErrors({ ...formErrors, [e.target.name]: "" });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = {};
     if (!formData.email.trim()) errors.email = "Email is required";
@@ -19,11 +20,19 @@ const Loginpage = () => {
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
-    } else {
-      console.log("Form submitted:", formData);
-      // TODO: Handle actual login logic
+      return;
+    }
+
+    try {
+      const response = await axios.post("/api/login", formData);
+      console.log("Login successful:", response.data);
+      localStorage.setItem("token", response.data.token);
+    } catch (error) {
+      console.error("Login failed:", error);
+      setFormErrors({ api: "Login failed. Please try again." });
     }
   };
+
 
   return (
     <div>
