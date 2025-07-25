@@ -49,9 +49,9 @@ export const Header = () => {
             {/* Brand */}
             <Navbar.Brand href="/" className="fw-bold">
               <img
-                src="/image/logo.png"
+                src="/image/logo-2.png"
                 alt="Acha Bazar Logo"
-                className="d-inline-block align-top me-2 w-25"
+                className="d-inline-block align-top me-2 logo"
               />
             </Navbar.Brand>
 
@@ -71,7 +71,7 @@ export const Header = () => {
               </Form>
 
               {/* Nav links */}
-              <Nav className="ms-auto align-items-center">
+              <Nav className="ms-auto align-items-center ">
                 {/* Dropdown */}
                 <NavDropdown title="Categories" id="categories-dropdown">
                   <NavDropdown.Item href="#cat1">Fruits</NavDropdown.Item>
@@ -84,7 +84,7 @@ export const Header = () => {
                   <NavDropdown.Item href="#offers">Offers</NavDropdown.Item>
                   <NavDropdown.Item href="/privacypolicy">
                     Privacy Policy
-                  </NavDropdown.Item>
+                  </NavDropdown.Item> 
                   <NavDropdown.Item href="/termsandconditions">
                     Terms & Conditions
                   </NavDropdown.Item>
