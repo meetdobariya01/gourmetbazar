@@ -13,6 +13,7 @@ import Loginpage from './pages/loginpage/loginpage';
 import Singup from './pages/signup/singup';
 import Privacypolicy from './pages/privacypolicy/privacypolicy';
 import Termsandcondition from './pages/terms-condition/termsandcondition';
+import Faqs from './pages/faqs/faqs';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -27,6 +28,7 @@ root.render(
         <Route path="/signup" element={<Singup/>} />
         <Route path="/privacypolicy" element={<Privacypolicy/>} />
         <Route path="/termsandconditions" element={<Termsandcondition/>} />
+         <Route path="/faqs" element={<Faqs/>} />
         
 
       </Routes>
