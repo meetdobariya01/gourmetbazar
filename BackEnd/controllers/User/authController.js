@@ -5,7 +5,7 @@ const twilio = require('twilio');
 
 // Twilio config
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken  = process.env.TWILIO_AUTH_TOKEN;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioPhone = process.env.TWILIO_PHONE_NUMBER;
 const client = twilio(accountSid, authToken);
 
@@ -14,29 +14,49 @@ const generateToken = (user) => {
 };
 
 // Register user
+// controllers/userController.js
 exports.register = async (req, res) => {
     try {
-        const user = new User(req.body);
+        const { firstName, lastName, email, mobileNumber, password } = req.body;
+
+        if (!firstName || !lastName || !email || !mobileNumber || !password) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Email already registered' });
+        }
+
+        const user = new User({ firstName, lastName, email, mobileNumber, password });
         await user.save();
+
         res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        console.error('Register Error:', err);
+        res.status(500).json({ error: 'Server error' });
     }
+
 };
 
 // Login
 exports.login = async (req, res) => {
+  exports.login = async (req, res) => {
     try {
-        const { Email, Password, Role } = req.body;
-        const user = await User.findOne({ Email, Role }).select('+Password');
-        if (!user || !(await bcrypt.compare(Password, user.Password))) {
+        const { email, password, role } = req.body;
+
+        const user = await User.findOne({ email, role }).select('+password');
+        if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
+
         const token = generateToken(user);
-        res.json({ token });
+        res.json({ message: 'Login successful', token });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
+};
+
 };
 
 // Send OTP to mobile
