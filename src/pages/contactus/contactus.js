@@ -35,43 +35,64 @@ export const Contactus = () => {
         <Row className="g-4 text-center">
           {/* Email */}
           <Col xs={12} md={4}>
-            <div className="p-4 border rounded h-100">
-              <FaEnvelope size={32} className="text-success mb-3" />
-              <h5>
-                <strong>Email Us</strong>
-              </h5>
-              <p className="mb-1 text-success">info@kachabazar.com</p>
-              <p>
-                We’re here to help you with any questions or support you need.
-              </p>
-            </div>
+            <a
+              href="mailto:info@kachabazar.com"
+              style={{ textDecoration: "none", color: "inherit" }}
+              aria-label="Send email to info@kachabazar.com"
+            >
+              <div className="p-4 border rounded h-100">
+                <FaEnvelope size={32} className="text-success mb-3" />
+                <h5>
+                  <strong>Email Us</strong>
+                </h5>
+                <p className="mb-1 text-success">info@kachabazar.com</p>
+                <p>
+                  We’re here to help you with any questions or support you need.
+                </p>
+              </div>
+            </a>
           </Col>
 
           {/* Call */}
           <Col xs={12} md={4}>
             <div className="p-4 border rounded h-100">
-              <FaPhoneAlt size={32} className="text-success mb-3" />
-              <h5>
-                <strong>Call Us</strong>
-              </h5>
-              <p className="mb-1 text-success">029-00124667</p>
-              <p>Call us anytime between 9AM to 9PM, 7 days a week.</p>
+              <a
+                href="tel:09099053111"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <FaPhoneAlt size={32} className="text-success mb-3" />
+                <h5>
+                  <strong>Call Us</strong>
+                </h5>
+                <p className="mb-1 text-success">090990 53111</p>
+                <p>Call us anytime between 9 AM to 9 PM, 7 days a week.</p>
+              </a>
             </div>
           </Col>
 
           {/* Location */}
           <Col xs={12} md={4}>
-            <div className="p-4 border rounded h-100">
-              <FaMapMarkerAlt size={32} className="text-success mb-3" />
-              <h5>
-                <strong>Location</strong>
-              </h5>
-              <p className="mb-1">
-                Boho One, Bridge Street West,
-                <br /> Middlesbrough, North Yorkshire, TS2 1AE.
-              </p>
-              <p>561-4535 Nulla LA, United States 96522.</p>
-            </div>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Silver+Square+A‑211,+Thaltej‑Shilaj+Rd,+Opp+Baghban+Party+Plot,+Thaltej,+Ahmedabad,+Gujarat+380059"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "inherit" }}
+              aria-label="Open map at Silver Square A‑211, Thaltej, Ahmedabad"
+            >
+              <div className="p-4 border rounded h-100">
+                <FaMapMarkerAlt size={32} className="text-success mb-3" />
+                <h5>
+                  <strong>Location</strong>
+                </h5>
+                <p className="mb-1">
+                  Silver Square, A‑211, Thaltej‑Shilaj Rd,
+                  <br />
+                  Opp. Baghban Party Plot, Thaltej,
+                  <br />
+                  Ahmedabad, Gujarat 380059
+                </p>
+              </div>
+            </a>
           </Col>
         </Row>
       </Container>
@@ -139,7 +160,6 @@ export const Contactus = () => {
       {/* Footer */}
       <Footer />
       {/* End Footer */}
-
     </div>
   );
 };
