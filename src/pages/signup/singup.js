@@ -1,19 +1,13 @@
-<<<<<<< HEAD
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import Footer from '../../component/footer/footer';
 import Header from '../../component/header/header';
-=======
-import React, { useState } from "react";
-import axios from "axios";
-import Header from "../../component/header/header";
-import Footer from "../../component/footer/footer";
->>>>>>> af234cffda1ab128399543a76bdcaad72a32c08f
 
 const API_BASE_URL = "http://localhost:5000";
 
 const OtpSignupForm = () => {
-<<<<<<< HEAD
+
     const [step, setStep] = useState(1);
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
@@ -260,7 +254,7 @@ const OtpSignupForm = () => {
         <Footer />
     </div>
     );
-=======
+
   const [step, setStep] = useState(1);
   const [mobile, setMobile] = useState("");
   const [otp, setOtp] = useState("");
@@ -442,8 +436,8 @@ const OtpSignupForm = () => {
       {/* Footer can be added here if needed */}
       <Footer/>
     </div>
-  );
->>>>>>> af234cffda1ab128399543a76bdcaad72a32c08f
-};
+  )
+};;
+
 
 export default OtpSignupForm;
