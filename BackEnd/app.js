@@ -502,6 +502,20 @@ app.delete("/food-delete/:id", authenticate, isAdmin, async (req, res) => {
         res.status(500).json({ error: "Server error during food deletion." });
     }
 });
+app.get('/foods/item/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const food = await Food.findById(id);
+    if (!food) {
+      return res.status(404).json({ message: 'Food not found' });
+    }
+    res.json(food);
+  } catch (err) {
+    console.error('Error fetching food by ID:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 // Get all categories
 app.get("/categories", async (req, res) => {
