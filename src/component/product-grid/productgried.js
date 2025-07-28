@@ -24,7 +24,6 @@ const Productgried = () => {
     try {
       const res = await fetch(`${API_BASE}/categories`);
       const data = await res.json();
-      console.log('Categories:', data);
       if (Array.isArray(data)) {
         setCategories(data);
       } else {
@@ -41,10 +40,9 @@ const Productgried = () => {
       const url = category === 'All' ? `${API_BASE}/foods` : `${API_BASE}/foods/${category}`;
       const res = await fetch(url);
       const data = await res.json();
-      console.log('Foods:', data);
       if (Array.isArray(data)) {
         setFoods(data);
-        setVegFoods([]); // clear type filter
+        setVegFoods([]); // Clear type filter
         setError(null);
       } else {
         throw new Error('Foods response is not an array');
@@ -59,7 +57,6 @@ const Productgried = () => {
     try {
       const res = await fetch(`${API_BASE}/foods/type/${type}`);
       const data = await res.json();
-      console.log('Type Foods:', data);
       if (Array.isArray(data.foods)) {
         setVegFoods(data.foods);
         setError(null);
@@ -67,7 +64,7 @@ const Productgried = () => {
         throw new Error('Invalid type foods response');
       }
     } catch (err) {
-      console.error('Error fetching type foods:', err);
+      console.error('Error filtering foods by type:', err);
       setError('⚠️ Failed to filter foods.');
     }
   };
@@ -94,9 +91,9 @@ const Productgried = () => {
   };
 
   const renderFoodCard = (food) => {
-    const imgSrc = food.image?.startsWith('http')
-      ? food.image
-      : food.image || 'https://via.placeholder.com/240x160?text=No+Image';
+    const imgSrc = food.Photos?.startsWith('http')
+      ? food.Photos
+      : `${API_BASE}/uploads/images/${food.Photos || 'no-image.jpg'}`;
 
     return (
       <Col key={food._id} xs={12} sm={6} md={4} lg={3} xl={2}>
@@ -104,16 +101,19 @@ const Productgried = () => {
           <Card.Img
             variant="top"
             src={imgSrc}
-            alt={food.name}
+            alt={food.FoodName}
             style={{ height: '160px', objectFit: 'cover' }}
-            onError={(e) => (e.target.src = 'https://via.placeholder.com/240x160?text=No+Image')}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = `${API_BASE}/uploads/images/no-image.jpg`;
+            }}
           />
           <Card.Body className="text-center">
-            <Card.Title>{food.name}</Card.Title>
-            <Card.Text>{food.description}</Card.Text>
-            <Card.Text><strong>₹{food.price}</strong></Card.Text>
-            <Card.Text><span className="badge bg-secondary">{food.category}</span></Card.Text>
-            <Card.Text>{food.type}</Card.Text>
+            <Card.Title>{food.FoodName}</Card.Title>
+            <Card.Text>{food.Description}</Card.Text>
+            <Card.Text><strong>₹{food.FoodPrice}</strong></Card.Text>
+            <Card.Text><span className="badge bg-secondary">{food.Category}</span></Card.Text>
+            <Card.Text>{food.Type}</Card.Text>
             <Button variant="success" onClick={() => addToCart(food._id)}>
               Add to Cart
             </Button>

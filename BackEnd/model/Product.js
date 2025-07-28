@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
 
 const foodSchema = new mongoose.Schema({
-  name: String,
-  price: Number,
-  description: String,
-  category: String,
-  type: String,
-//   isAvailable: { type: Boolean, default: true },
-//   quantity: Number,
-  image: String
+  FoodName: String,
+  
+FoodPrice: Number,
+ 
+Description: String,
+  Category: String,
+  
+Type: String,
+  Photos: String,
 });
 
-module.exports = mongoose.model('Foods', foodSchema);
+module.exports = mongoose.model('FoodS', foodSchema);

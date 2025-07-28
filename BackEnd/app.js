@@ -17,7 +17,7 @@ const User = require("./model/UserSchema");
 const Food = require("./model/Food.Add.Admin");
 const Cart = require("./model/Cart");
 const Order = require("./model/order.js");
-const Foods = require('./model/Product.js');
+const Foods = require('./model/product.js');
 require("./config/db"); // Your database connection setup
 require("./model/Order.traking"); // Ensure this model is also loaded if used
 require('dotenv').config();
@@ -270,12 +270,15 @@ app.post("/signup", async (req, res) => {
 });
 app.get('/foods', async (req, res) => {
     try {
-        const products = await products.find(); // Fetch all products from MongoDB
-        res.json(products);
+        const foods = await Food.find(); // ✅ fix variable name
+        res.json(foods);
     } catch (err) {
+        console.error("Error fetching foods:", err);
         res.status(500).json({ message: 'Failed to fetch products' });
     }
 });
+
+
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
