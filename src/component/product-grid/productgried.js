@@ -93,7 +93,7 @@ const Productgried = () => {
   const renderFoodCard = (food) => {
     const imgSrc = food.Photos?.startsWith('http')
       ? food.Photos
-      : `${API_BASE}/uploads/images/${food.Photos || 'no-image.jpg'}`;
+      : `${API_BASE}${food.Photos || 'no-image.jpg'}`;
 
     return (
       <Col key={food._id} xs={12} sm={6} md={4} lg={3} xl={2}>
