@@ -17,6 +17,7 @@ const User = require("./model/UserSchema");
 const Food = require("./model/Food.Add.Admin");
 const Cart = require("./model/Cart");
 const Order = require("./model/order.js");
+const Foods = require('./model/Product.js');
 require("./config/db"); // Your database connection setup
 require("./model/Order.traking"); // Ensure this model is also loaded if used
 require('dotenv').config();
@@ -267,8 +268,14 @@ app.post("/signup", async (req, res) => {
         res.status(500).json({ error: "Server error during signup.", details: error.message });
     }
 });
-
-// User login
+app.get('/foods', async (req, res) => {
+    try {
+        const products = await products.find(); // Fetch all products from MongoDB
+        res.json(products);
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to fetch products' });
+    }
+});
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -426,7 +433,7 @@ app.post("/food-add", authenticate, isAdmin, upload.single('photo'), async (req,
         // --- Excel Export Logic ---
         const filePath = path.join(__dirname, process.env.EXCEL_FILE_PATH || 'ffoods.xlsx'); // Use .xlsx
         const foodEntry = { FoodName, FoodPrice, Description, Category, Photos: photoPath, Type }; // Use 'Type'
-        
+
         let workbook, worksheet, data = [];
 
         if (fs.existsSync(filePath)) {
