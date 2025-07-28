@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import Header from "../../component/header/header";
 import Footer from "../../component/footer/footer";
+const API_BASE = "http://localhost:5000"; // Add this at the top of the file
 
 const Product = () => {
   const [product, setProduct] = useState(null);
@@ -37,7 +38,11 @@ const Product = () => {
         <Row>
           <Col md={6} className="text-center mb-3">
             <img
-              src={product.Photos || "https://via.placeholder.com/300"}
+           src={
+                  product.Photos
+                    ? `${API_BASE}${product.Photos}`
+                    : "https://via.placeholder.com/150"
+                }
               alt={product.FoodName}
               className="img-fluid w-75"
             />

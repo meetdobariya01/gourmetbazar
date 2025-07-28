@@ -40,13 +40,13 @@ const ProductGrid = () => {
 
   const handleViewProduct = (product) => {
     localStorage.setItem('selectedProduct', JSON.stringify(product));
-    window.location.href = '/product-detail';
+    window.location.href = '/product';
   };
 
   return (
     <Container className="py-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>🍽️ Product Grid</h2>
+        <h2>OUR Product</h2>
         <Form.Select
           style={{ width: '200px' }}
           value={selectedCategory}

@@ -5,7 +5,6 @@ import Categories from '../Categories/Categories'
 import Productgried from '../product-grid/productgried'
 import Banner from '../banner/banner'
 import Footer from '../footer/footer'
-
 export const Home = () => {
   return (
     <div>
@@ -29,7 +28,7 @@ export const Home = () => {
     </div>
     <Categories/>
     <Productgried/>
-    <Banner/>
+     <Banner/>
     <Footer/>
     </div>
   )

@@ -93,7 +93,7 @@ const OtpSignupForm = () => {
 
             const res = await axios.post(`${API_BASE_URL}/signup`, {
                 ...formData,
-                role: formData.role?.toLowerCase() || 'user',
+                role:'User',
             });
             setMessage(res.data.message);
         } catch (err) {
