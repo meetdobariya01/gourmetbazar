@@ -31,6 +31,20 @@ const Header = () => {
     localStorage.removeItem('role');
     window.location.href = '/login';
   };
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    fetch(`http://localhost:5000/search?query=${encodeURIComponent(searchQuery)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Search results:", data);
+        // You can update state or redirect to a search result page here
+      })
+      .catch(console.error);
+  };
   return (
     <header>
       <Navbar expand="lg" bg="info" variant="dark" sticky="top" className="py-3">
@@ -45,17 +59,20 @@ const Header = () => {
 
           <Navbar.Toggle aria-controls="main-navbar" />
           <Navbar.Collapse id="main-navbar">
-            <Form className="d-flex flex-grow-1 mx-lg-3 my-3 my-lg-0">
+            <Form className="d-flex flex-grow-1 mx-lg-3 my-3 my-lg-0" onSubmit={handleSearch}>
               <FormControl
                 type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for products (e.g. fish, apple, oil)"
                 className="me-2"
                 aria-label="Search"
               />
-              <Button variant="light">
+              <Button variant="light" type="submit">
                 <i className="bi bi-search"></i>
               </Button>
             </Form>
+
 
             <Nav className="ms-auto align-items-center">
               <NavDropdown title="Categories" id="categories-dropdown">
