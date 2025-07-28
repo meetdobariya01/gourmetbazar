@@ -9,6 +9,7 @@ const Productgried = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [foods, setFoods] = useState([]);
   const [vegFoods, setVegFoods] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadCategories();
@@ -23,9 +24,15 @@ const Productgried = () => {
     try {
       const res = await fetch(`${API_BASE}/categories`);
       const data = await res.json();
-      setCategories(data);
+      console.log('Categories:', data);
+      if (Array.isArray(data)) {
+        setCategories(data);
+      } else {
+        throw new Error('Categories response is not an array');
+      }
     } catch (err) {
       console.error('Error loading categories:', err);
+      setCategories([]);
     }
   };
 
@@ -34,10 +41,17 @@ const Productgried = () => {
       const url = category === 'All' ? `${API_BASE}/foods` : `${API_BASE}/foods/${category}`;
       const res = await fetch(url);
       const data = await res.json();
-      setFoods(data);
-      setVegFoods([]); // clear type filter
+      console.log('Foods:', data);
+      if (Array.isArray(data)) {
+        setFoods(data);
+        setVegFoods([]); // clear type filter
+        setError(null);
+      } else {
+        throw new Error('Foods response is not an array');
+      }
     } catch (err) {
       console.error('Error loading foods:', err);
+      setError('⚠️ Failed to load foods.');
     }
   };
 
@@ -45,9 +59,16 @@ const Productgried = () => {
     try {
       const res = await fetch(`${API_BASE}/foods/type/${type}`);
       const data = await res.json();
-      setVegFoods(data.foods || []);
+      console.log('Type Foods:', data);
+      if (Array.isArray(data.foods)) {
+        setVegFoods(data.foods);
+        setError(null);
+      } else {
+        throw new Error('Invalid type foods response');
+      }
     } catch (err) {
       console.error('Error fetching type foods:', err);
+      setError('⚠️ Failed to filter foods.');
     }
   };
 
@@ -102,6 +123,8 @@ const Productgried = () => {
     );
   };
 
+  const foodList = vegFoods.length > 0 ? vegFoods : foods;
+
   return (
     <Container className="py-4">
       <div className="text-center mb-4">
@@ -125,7 +148,7 @@ const Productgried = () => {
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
           <option value="All">All Categories</option>
-          {categories.map((cat, idx) => (
+          {Array.isArray(categories) && categories.map((cat, idx) => (
             <option key={idx} value={cat}>
               {cat}
             </option>
@@ -133,8 +156,12 @@ const Productgried = () => {
         </Form.Select>
       </div>
 
+      {error && <div className="text-danger text-center mb-3">{error}</div>}
+
       <Row className="g-4">
-        {(vegFoods.length > 0 ? vegFoods : foods).map(renderFoodCard)}
+        {Array.isArray(foodList) && foodList.length > 0
+          ? foodList.map(renderFoodCard)
+          : <div className="text-center text-muted">No food items found.</div>}
       </Row>
     </Container>
   );
