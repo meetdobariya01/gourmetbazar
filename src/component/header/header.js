@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <>
       <header>
-        <div className="bg-light py-1 border-bottom d-none d-md-block">
+        {/* <div className="bg-light py-1 border-bottom d-none d-md-block">
           <Container className="d-flex justify-content-between small">
             <div>
               📞 We are available 24/7, Need help?{" "}
@@ -37,7 +37,7 @@ const Header = () => {
               {!email && <a href="/login">Login</a>}
             </div>
           </Container>
-        </div>
+        </div> */}
 
         <Navbar expand="lg" bg="info" variant="dark" sticky="top" className="py-3">
           <Container fluid>
