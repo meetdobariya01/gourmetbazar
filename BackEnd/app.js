@@ -264,6 +264,21 @@ app.get('/foods', async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch products' });
     }
 });
+// Node.js + Express (MongoDB example)
+app.get('/products', async (req, res) => {
+  const category = req.query.category;
+  try {
+    const products = await Food.find({
+      Category: { $regex: new RegExp(`^${category}$`, 'i') }
+    });
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
+
+// Node.js + Express (MongoDB example)
+
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {

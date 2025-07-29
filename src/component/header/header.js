@@ -9,6 +9,7 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 const API_BASE = 'http://localhost:5000';
 
@@ -45,6 +46,7 @@ const Header = () => {
       })
       .catch(console.error);
   };
+
   return (
     <header>
       <Navbar expand="lg" bg="info" variant="dark" sticky="top" className="py-3">
@@ -76,11 +78,14 @@ const Header = () => {
 
             <Nav className="ms-auto align-items-center">
               <NavDropdown title="Categories" id="categories-dropdown">
-                {categories.map((cat, index) => (
-                  <NavDropdown.Item key={index} href={`/category/${cat}`}>
-                    {cat}
-                  </NavDropdown.Item>
-                ))}
+                {categories.map((cat, index) => {
+                  const slug = cat.toLowerCase().replace(/\s+/g, '-');
+                  return (
+                    <NavDropdown.Item key={index} as={Link} to={`/category/${slug}`}>
+                      {cat}
+                    </NavDropdown.Item>
+                  );
+                })}
               </NavDropdown>
 
               <Nav.Link href="/aboutus">About Us</Nav.Link>

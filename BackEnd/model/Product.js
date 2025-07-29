@@ -12,4 +12,4 @@ Type: String,
   Photos: String,
 });
 
-module.exports = mongoose.model('FoodS', foodSchema);
+module.exports = mongoose.model('Foods', foodSchema);

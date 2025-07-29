@@ -14,11 +14,11 @@ const Categories = () => {
       const result = res.data;
 
       // Optional: if you want to attach paths/icons/subcategories for known categories
-      const formatted = result.map((cat) => ({
-        title: cat,
+      const formatted = result.map((catagory) => ({
+        title:catagory,
         icon: "📦", // default icon
         subcategories: [],
-        path: `/${cat.toLowerCase().replace(/\s+/g, '-')}`
+        path: `/${catagory.toLowerCase().replace(/\s+/g, '-')}`
       }));
 
       setCategories(formatted);

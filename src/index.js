@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 // import App from './App';
 import reportWebVitals from "./reportWebVitals";
-import { Header } from "./component/header/header";
+// import { Header } from "./component/header/header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Home } from "./component/home/home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -16,6 +16,9 @@ import Termsandcondition from "./pages/terms-condition/termsandcondition";
 import Faqs from "./pages/faqs/faqs";
 import Checkout from "./pages/checkout/checkout";
 import Product from "./pages/product/product";
+// REMOVE this line if not used
+// import Header from '../src/component/header/header';
+
 
 import Collection from "./pages/collection/collection";
 
@@ -32,10 +35,11 @@ root.render(
       <Route path="/privacypolicy" element={<Privacypolicy />} />
       <Route path="/termsandconditions" element={<Termsandcondition />} />
       <Route path="/faqs" element={<Faqs />} />
-      <Route path="/checkout" element={<Checkout/>} />
-      <Route path="/product" element={<Product/>} />
-      <Route path="/collection" element={<Collection/>} />
-
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/product" element={<Product />} />
+      <Route path="/collection" element={<Collection />} />
+      <Route path="/category/:categorySlug" element={<Collection />} />
+      <Route path="/:categorySlug" element={<Collection />} />
     </Routes>
   </Router>
 );
