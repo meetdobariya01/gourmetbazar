@@ -30,6 +30,41 @@ const Product = () => {
       </Container>
     );
   }
+  const handleAddToCart = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to add items to cart.");
+      window.location.href = "/login";
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE}/add-to-cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          foodId: product._id,
+          quantity,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Added to cart successfully!");
+        console.log("Cart:", data.cart);
+      } else {
+        alert(data.message || "Failed to add to cart.");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Server error while adding to cart.");
+    }
+  };
+
 
   return (
     <div>
@@ -38,11 +73,11 @@ const Product = () => {
         <Row>
           <Col md={6} className="text-center mb-3">
             <img
-           src={
-                  product.Photos
-                    ? `${API_BASE}${product.Photos}`
-                    : "https://via.placeholder.com/150"
-                }
+              src={
+                product.Photos
+                  ? `${API_BASE}${product.Photos}`
+                  : "https://via.placeholder.com/150"
+              }
               alt={product.FoodName}
               className="img-fluid w-75"
             />

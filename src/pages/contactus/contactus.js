@@ -3,9 +3,8 @@ import Header from "../../component/header/header";
 // import { Container, Row, Col } from "react-bootstrap";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import Footer from "../../component/footer/footer";
-
-export const Contactus = () => {
+import Footer from "../../component/footer/footer"
+ const Contactus = () => {
   return (
     <div>
       {/* header import */}
