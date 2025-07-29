@@ -897,7 +897,6 @@ app.post('/contectus', async (req, res) => {
         pass: process.env.MAIL_PASS,     // app-specific password or real password
       },
     });
-
     // Define the email options
     const mailOptions = {
       from: `"Gourmet Bazar" <${process.env.MAIL_USER}>`,
