@@ -16,6 +16,7 @@ import Termsandcondition from "./pages/terms-condition/termsandcondition";
 import Faqs from "./pages/faqs/faqs";
 import Checkout from "./pages/checkout/checkout";
 import Product from "./pages/product/product";
+import SearchResults from '../src/pages/SearchResults.js/SearchResults';
 // REMOVE this line if not used
 // import Header from '../src/component/header/header';
 
@@ -40,6 +41,7 @@ root.render(
       <Route path="/collection" element={<Collection />} />
       <Route path="/category/:categorySlug" element={<Collection />} />
       <Route path="/:categorySlug" element={<Collection />} />
+        <Route path="/search" element={<SearchResults />} />
     </Routes>
   </Router>
 );

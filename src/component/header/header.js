@@ -1,4 +1,6 @@
+// Header.js
 import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {
   Container,
@@ -9,7 +11,6 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import { Link } from 'react-router-dom';
 
 const API_BASE = 'http://localhost:5000';
 
@@ -17,8 +18,9 @@ const Header = () => {
   const email = localStorage.getItem('email');
   const initial = email ? email.charAt(0).toUpperCase() : '';
   const [categories, setCategories] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-  // Fetch categories
   useEffect(() => {
     fetch(`${API_BASE}/categories`)
       .then(res => res.json())
@@ -32,26 +34,18 @@ const Header = () => {
     localStorage.removeItem('role');
     window.location.href = '/login';
   };
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-
-    fetch(`http://localhost:5000/search?query=${encodeURIComponent(searchQuery)}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Search results:", data);
-        // You can update state or redirect to a search result page here
-      })
-      .catch(console.error);
+    navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
   };
 
   return (
     <header>
       <Navbar expand="lg" bg="info" variant="dark" sticky="top" className="py-3">
         <Container fluid>
-          <Navbar.Brand href="/" className="fw-bold">
+          <Navbar.Brand as={Link} to="/" className="fw-bold">
             <img
               src="/image/logo-2.png"
               alt="Acha Bazar Logo"
@@ -68,13 +62,11 @@ const Header = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for products (e.g. fish, apple, oil)"
                 className="me-2"
-                aria-label="Search"
               />
               <Button variant="light" type="submit">
                 <i className="bi bi-search"></i>
               </Button>
             </Form>
-
 
             <Nav className="ms-auto align-items-center">
               <NavDropdown title="Categories" id="categories-dropdown">
@@ -88,13 +80,13 @@ const Header = () => {
                 })}
               </NavDropdown>
 
-              <Nav.Link href="/aboutus">About Us</Nav.Link>
-              <Nav.Link href="/contactus">Contact Us</Nav.Link>
+              <Nav.Link as={Link} to="/aboutus">About Us</Nav.Link>
+              <Nav.Link as={Link} to="/contactus">Contact Us</Nav.Link>
 
               <NavDropdown title="Pages" id="pages-dropdown">
                 <NavDropdown.Item href="#offers">Offers</NavDropdown.Item>
-                <NavDropdown.Item href="/privacypolicy">Privacy Policy</NavDropdown.Item>
-                <NavDropdown.Item href="/termsandconditions">Terms & Conditions</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/privacypolicy">Privacy Policy</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/termsandconditions">Terms & Conditions</NavDropdown.Item>
               </NavDropdown>
 
               <Nav.Link className="d-none d-lg-block">
@@ -132,8 +124,8 @@ const Header = () => {
                 align="end"
                 className="d-none d-lg-block"
               >
-                {!email && <NavDropdown.Item href="/login">Login</NavDropdown.Item>}
-                {!email && <NavDropdown.Item href="/signup">Signup</NavDropdown.Item>}
+                {!email && <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>}
+                {!email && <NavDropdown.Item as={Link} to="/signup">Signup</NavDropdown.Item>}
                 {email && <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>}
               </NavDropdown>
             </Nav>
