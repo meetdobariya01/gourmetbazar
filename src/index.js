@@ -22,6 +22,8 @@ import SearchResults from '../src/pages/SearchResults.js/SearchResults';
 
 
 import Collection from "./pages/collection/collection";
+import Cart from "./pages/crat/cart";
+import Orderconfirmed from "./pages/orderconfirmed/orderconfirmed";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -36,12 +38,12 @@ root.render(
       <Route path="/privacypolicy" element={<Privacypolicy />} />
       <Route path="/termsandconditions" element={<Termsandcondition />} />
       <Route path="/faqs" element={<Faqs />} />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/product" element={<Product />} />
-      <Route path="/collection" element={<Collection />} />
-      <Route path="/category/:categorySlug" element={<Collection />} />
-      <Route path="/:categorySlug" element={<Collection />} />
-        <Route path="/search" element={<SearchResults />} />
+      <Route path="/checkout" element={<Checkout/>} />
+      <Route path="/product" element={<Product/>} />
+      <Route path="/collection" element={<Collection/>} />
+      <Route path="/cart" element={<Cart/>} />
+      <Route path="/orderconfirmed" element={<Orderconfirmed/>} />
+
     </Routes>
   </Router>
 );

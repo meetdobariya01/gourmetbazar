@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
 import axios from "axios";
+import Header from "../../component/header/header";
+import Footer from "../../component/footer/footer";
 
 export const Collection = () => {
   const { categorySlug } = useParams();
@@ -12,7 +14,6 @@ export const Collection = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Convert slug to proper category format: "milky-mist-dairy" → "milky mist dairy"
         const formattedCategory = categorySlug.replace(/-/g, " ").toLowerCase();
 
         const response = await axios.get(
@@ -37,6 +38,8 @@ export const Collection = () => {
 
   return (
     <div>
+      <Header />
+
       <Container className="py-4">
         <h4 className="fw-bold text-center mb-4 text-capitalize">
           {categorySlug?.replace(/-/g, " ")} Products
@@ -68,18 +71,11 @@ export const Collection = () => {
                     <Card.Title style={{ fontSize: "1rem" }}>
                       {product.FoodName}
                     </Card.Title>
-                    <Card.Text
-                      className="text-muted"
-                      style={{ fontSize: "0.85rem" }}
-                    >
+                    <Card.Text className="text-muted" style={{ fontSize: "0.85rem" }}>
                       {product.Description}
                     </Card.Text>
                     <h6 className="mb-2">₹{product.FoodPrice.toLocaleString()}</h6>
-                    <Button
-                      variant="outline-success"
-                      size="sm"
-                      className="w-100"
-                    >
+                    <Button variant="outline-success" size="sm" className="w-100">
                       ADD
                     </Button>
                   </Card.Body>
@@ -91,14 +87,12 @@ export const Collection = () => {
 
         <Modal show={show} onHide={handleClose} centered animation>
           <Modal.Body className="p-0">
-            <img
-              src={selectedImage}
-              alt="Product"
-              className="img-fluid w-100"
-            />
+            <img src={selectedImage} alt="Product" className="img-fluid w-100" />
           </Modal.Body>
         </Modal>
       </Container>
+
+      <Footer />
     </div>
   );
 };
