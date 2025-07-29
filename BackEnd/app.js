@@ -17,6 +17,7 @@ const Food = require("./model/Food.Add.Admin");
 const Cart = require("./model/Cart");
 const Order = require("./model/order.js");
 const Foods = require('./model/product.js');
+const ContectUs = require('./model/ContectUs');
 require("./config/db"); // Your database connection setup
 require("./model/Order.traking"); // Ensure this model is also loaded if used
 require('dotenv').config();
@@ -870,7 +871,62 @@ app.put('/assign-order/:orderId', authenticate, isAdmin, async (req, res) => {
         res.status(500).json({ message: 'Server error assigning order.' });
     }
 });
-// Start server
+
+app.post('/contectus', async (req, res) => {
+  const { YourName, YourEmail, Subject, Message } = req.body;
+
+  if (!YourName || !YourEmail || !Subject || !Message) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  try {
+    const contact = new ContectUs({
+      YourName,
+      YourEmail,
+      Subject,
+      Message,
+    });
+
+    await contact.save();
+
+    // Set up the transporter
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.MAIL_USER,     // your Gmail address from .env
+        pass: process.env.MAIL_PASS,     // app-specific password or real password
+      },
+    });
+
+    // Define the email options
+    const mailOptions = {
+      from: `"Gourmet Bazar" <${process.env.MAIL_USER}>`,
+      to: YourEmail,  // sending to user or your admin email
+      subject: `Thank you for contacting us, ${YourName}`,
+      html: `
+        <h3>Hello, ${YourName}</h3>
+        <p>We received your message:</p>
+        <blockquote>${Message}</blockquote>
+        <p>We'll get back to you shortly.</p>
+        <hr />
+        <p><strong>Subject:</strong> ${Subject}</p>
+        <p><strong>Email:</strong> ${YourEmail}</p>
+      `,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({ message: `Email sent to ${YourEmail}` });
+  } catch (error) {
+    console.error("Contact form error:", error);
+    return res.status(500).json({
+      error: "Server error during contact submission.",
+      details: error.message,
+    });
+  }
+});
+    // Check if the email OTP has been verified
 server.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });

@@ -88,5 +88,4 @@ const ProductGrid = () => {
     </Container>
   );
 };
-
 export default ProductGrid;
