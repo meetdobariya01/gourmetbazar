@@ -11,19 +11,18 @@ const fs = require("fs");
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 require('dotenv').config(); // Load environment variables from .env file
-
 // Import your Mongoose models
 const User = require("./model/UserSchema");
 const Food = require("./model/Food.Add.Admin");
 const Cart = require("./model/Cart");
 const Order = require("./model/order.js");
-const Foods = require('./model/Product.js');
+const Foods = require('./model/product.js');
+const ContectUs = require('./model/ContectUs');
 require("./config/db"); // Your database connection setup
 require("./model/Order.traking"); // Ensure this model is also loaded if used
 require('dotenv').config();
 const server = http.createServer(app);
 const port = process.env.PORT || 5000;
-
 // Middleware setup
 app.use(cors()); // Enable CORS for all origins (consider restricting this in production)
 app.use(express.json()); // For parsing application/json
@@ -32,13 +31,11 @@ app.use(express.urlencoded({ extended: true })); // For parsing application/x-ww
 app.use(express.static('public')); // Serve static files from 'public' directory
 app.use('/uploads', express.static('uploads')); // Serve uploaded files from 'uploads' directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Ensure correct path for uploads
-
 // In-memory storage for OTPs (for demonstration purposes)
 // IMPORTANT: In a production environment, use a persistent store like Redis or a database
 // for OTPs to handle server restarts and scaling.
 const tempOtp = {};
 const OTP_EXPIRY_TIME = 5 * 60 * 1000; // OTP valid for 5 minutes
-
 // Nodemailer transporter setup
 const transporter = nodemailer.createTransport({
     service: 'gmail', // Use 'gmail' for Gmail SMTP
@@ -47,7 +44,6 @@ const transporter = nodemailer.createTransport({
         pass: process.env.MAIL_PASS  // Your Gmail App Password from .env
     }
 });
-
 // Multer setup for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -59,7 +55,6 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
-
 // JWT authentication middleware
 const authenticate = (req, res, next) => {
     // Extract token from Authorization header (Bearer token)
@@ -78,7 +73,6 @@ const authenticate = (req, res, next) => {
         return res.status(401).json({ message: 'Invalid or expired token.' });
     }
 };
-
 // Middleware to check if user is a 'user' role
 const isUser = async (req, res, next) => {
     try {
@@ -102,7 +96,6 @@ const isUser = async (req, res, next) => {
         res.status(500).json({ message: 'Server error during role check.', error: error.message });
     }
 };
-
 // Middleware to check if user is an 'admin' role
 const isAdmin = async (req, res, next) => {
     try {
@@ -125,7 +118,6 @@ const isAdmin = async (req, res, next) => {
         return res.status(500).json({ message: 'Server error during role check.', error: error.message });
     }
 };
-
 // Middleware to check if user is a 'delivery' role
 const isDelivery = async (req, res, next) => {
     try {
@@ -147,9 +139,7 @@ const isDelivery = async (req, res, next) => {
         return res.status(500).json({ message: 'Server error during role check.', error: error.message });
     }
 };
-
 // --- OTP Routes (Email-based) ---
-
 // Endpoint to send OTP via Email
 app.post("/send-otp-email", async (req, res) => {
     const { email } = req.body;
@@ -190,7 +180,6 @@ app.post("/send-otp-email", async (req, res) => {
         return res.status(500).json({ success: false, message: "Failed to send OTP email. Please ensure your email configuration is correct and try again." });
     }
 });
-
 // Endpoint to verify OTP (modified to use email instead of mobile)
 app.post("/verify-otp-email", async (req, res) => {
     const { email, Otp } = req.body;
@@ -215,9 +204,7 @@ app.post("/verify-otp-email", async (req, res) => {
     record.verified = true;
     res.json({ success: true, message: "OTP verified successfully." });
 });
-
 // --- User Authentication Routes ---
-
 // User signup
 app.post("/signup", async (req, res) => {
     const { fname, lname, email, password, mobile, role } = req.body; // Mobile is still collected for user profile
@@ -270,12 +257,28 @@ app.post("/signup", async (req, res) => {
 });
 app.get('/foods', async (req, res) => {
     try {
-        const products = await products.find(); // Fetch all products from MongoDB
-        res.json(products);
+        const foods = await Food.find(); // ✅ fix variable name
+        res.json(foods);
     } catch (err) {
+        console.error("Error fetching foods:", err);
         res.status(500).json({ message: 'Failed to fetch products' });
     }
 });
+// Node.js + Express (MongoDB example)
+app.get('/products', async (req, res) => {
+  const category = req.query.category;
+  try {
+    const products = await Food.find({
+      Category: { $regex: new RegExp(`^${category}$`, 'i') }
+    });
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
+
+// Node.js + Express (MongoDB example)
+
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -306,9 +309,7 @@ app.post("/login", async (req, res) => {
         res.status(500).json({ error: "Server error during login." });
     }
 });
-
-// --- Dashboard Routes ---
-
+// -- Dashboard Routes ---
 // Admin dashboard
 app.get("/admin/dashboard", authenticate, isAdmin, async (req, res) => {
     try {
@@ -362,7 +363,6 @@ app.get("/admin/dashboard", authenticate, isAdmin, async (req, res) => {
         res.status(500).json({ message: "Server error fetching admin dashboard data." });
     }
 });
-
 // User dashboard
 app.get("/user/dashboard", authenticate, isUser, async (req, res) => {
     try {
@@ -399,7 +399,6 @@ app.get("/user/dashboard", authenticate, isUser, async (req, res) => {
         res.status(500).json({ message: "Server error fetching user dashboard data." });
     }
 });
-
 // Order preview
 app.get('/my-orders', authenticate, isUser, async (req, res) => {
     try {
@@ -413,9 +412,7 @@ app.get('/my-orders', authenticate, isUser, async (req, res) => {
         res.status(500).json({ message: 'Server error fetching orders.' });
     }
 });
-
 // --- Food Management (Admin Only) ---
-
 // Add food (admin only)
 app.post("/food-add", authenticate, isAdmin, upload.single('photo'), async (req, res) => {
     const { FoodName, FoodPrice, Description, Category, Type } = req.body;
@@ -468,7 +465,6 @@ app.post("/food-add", authenticate, isAdmin, upload.single('photo'), async (req,
         res.status(500).json({ error: "Server error during food addition.", details: error.message });
     }
 });
-
 // Food type filter
 app.get('/foods/type/:type', async (req, res) => {
     const type = req.params.type;
@@ -485,7 +481,6 @@ app.get('/foods/type/:type', async (req, res) => {
         res.status(500).json({ message: 'Server error fetching foods by type.' });
     }
 });
-
 // Delete food (admin only)
 app.delete("/food-delete/:id", authenticate, isAdmin, async (req, res) => {
     try {
@@ -499,7 +494,20 @@ app.delete("/food-delete/:id", authenticate, isAdmin, async (req, res) => {
         res.status(500).json({ error: "Server error during food deletion." });
     }
 });
+app.get('/foods/item/:id', async (req, res) => {
+    const { id } = req.params;
 
+    try {
+        const food = await Food.findById(id);
+        if (!food) {
+            return res.status(404).json({ message: 'Food not found' });
+        }
+        res.json(food);
+    } catch (err) {
+        console.error('Error fetching food by ID:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 // Get all categories
 app.get("/categories", async (req, res) => {
     try {
@@ -510,7 +518,6 @@ app.get("/categories", async (req, res) => {
         res.status(500).json({ message: "Server error fetching categories." });
     }
 });
-
 // Show food by category
 app.get("/foods/:Category", async (req, res) => {
     try {
@@ -530,9 +537,7 @@ app.get("/foods/:Category", async (req, res) => {
         res.status(500).json({ error: "Server error fetching foods by category." });
     }
 });
-
 // --- Cart Operations ---
-
 // Add food to cart
 app.post("/add-to-cart", authenticate, isUser, async (req, res) => {
     const { foodId, quantity } = req.body;
@@ -565,7 +570,6 @@ app.post("/add-to-cart", authenticate, isUser, async (req, res) => {
         res.status(500).json({ message: 'Server error adding to cart.' });
     }
 });
-
 // Get user's cart
 app.get('/cart', authenticate, isUser, async (req, res) => {
     try {
@@ -587,7 +591,6 @@ app.get('/cart', authenticate, isUser, async (req, res) => {
         res.status(500).json({ message: 'Server error fetching cart.' });
     }
 });
-
 // Remove item from cart
 app.delete('/cart/remove/:foodId', authenticate, isUser, async (req, res) => {
     try {
@@ -612,7 +615,6 @@ app.delete('/cart/remove/:foodId', authenticate, isUser, async (req, res) => {
         res.status(500).json({ message: 'Server error removing item from cart.' });
     }
 });
-
 // Create cart route (Note: This route might be redundant if add-to-cart handles creation)
 // Consider if this is truly needed or if `add-to-cart` should be the primary way to ensure a cart exists.
 app.post("/create-cart", authenticate, isUser, async (req, res) => { // Added authenticate, isUser
@@ -628,10 +630,7 @@ app.post("/create-cart", authenticate, isUser, async (req, res) => { // Added au
         res.status(500).json({ message: "Server error creating cart." });
     }
 });
-
-
 // --- Order Management ---
-
 // Place order API
 app.post('/place-order/:cartId', authenticate, isUser, async (req, res) => {
     try {
@@ -742,9 +741,24 @@ app.post('/place-order/:cartId', authenticate, isUser, async (req, res) => {
         res.status(500).json({ message: 'Server error placing order.', error: err.message });
     }
 });
-
 // --- Excel Export ---
+app.get('/search', async (req, res) => {
+    const query = req.query.query;
+    if (!query) {
+        return res.status(400).json({ error: 'Query is required' });
+    }
 
+    try {
+        const results = await Food.find({
+            FoodName: { $regex: query, $options: 'i' } // case-insensitive search
+        });
+
+        res.json(results);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 // Endpoint to export food data to Excel
 app.get("/export/excel", (req, res) => {
     try {
@@ -761,9 +775,6 @@ app.get("/export/excel", (req, res) => {
         res.status(500).send("Failed to read Excel file.");
     }
 });
-
-// --- User Address Management ---
-
 // Example endpoint to add saved addresses
 app.post('/user/address', authenticate, isUser, async (req, res) => {
     try {
@@ -787,9 +798,6 @@ app.post('/user/address', authenticate, isUser, async (req, res) => {
         res.status(500).json({ message: 'Server error adding address.' });
     }
 });
-
-// --- Delivery Operations ---
-
 // Get orders assigned to a delivery boy
 app.get("/delivery/orders", authenticate, isDelivery, async (req, res) => {
     try {
@@ -804,7 +812,6 @@ app.get("/delivery/orders", authenticate, isDelivery, async (req, res) => {
         res.status(500).json({ message: "Server error fetching delivery orders." });
     }
 });
-
 // Update order status by delivery boy
 app.put("/delivery/order/:orderId", authenticate, isDelivery, async (req, res) => {
     const { orderId } = req.params;
@@ -833,7 +840,6 @@ app.put("/delivery/order/:orderId", authenticate, isDelivery, async (req, res) =
         res.status(500).json({ message: "Server error updating order status." });
     }
 });
-
 // Update delivery location (for tracking)
 app.post("/delivery/location/:orderId", authenticate, isDelivery, async (req, res) => {
     const { orderId } = req.params;
@@ -854,27 +860,22 @@ app.post("/delivery/location/:orderId", authenticate, isDelivery, async (req, re
         res.status(500).json({ message: 'Server error updating location.' });
     }
 });
-
 // Assign order to a delivery boy (Admin only)
 app.put('/assign-order/:orderId', authenticate, isAdmin, async (req, res) => {
     const { deliveryBoyId } = req.body;
-
     if (!deliveryBoyId) {
         return res.status(400).json({ message: 'Delivery Boy ID is required.' });
     }
-
     try {
         const order = await Order.findById(req.params.orderId);
         if (!order) {
             return res.status(404).json({ message: 'Order not found.' });
         }
-
         // Optional: Verify if deliveryBoyId corresponds to an actual 'delivery' role user
         const deliveryBoy = await User.findById(deliveryBoyId);
         if (!deliveryBoy || deliveryBoy.role !== 'delivery') {
             return res.status(400).json({ message: 'Invalid Delivery Boy ID or user is not a delivery person.' });
         }
-
         order.deliveryBoyId = deliveryBoyId;
         order.status = 'Assigned'; // Update status to reflect assignment
         await order.save();
@@ -886,7 +887,60 @@ app.put('/assign-order/:orderId', authenticate, isAdmin, async (req, res) => {
     }
 });
 
-// Start server
+app.post('/contectus', async (req, res) => {
+  const { YourName, YourEmail, Subject, Message } = req.body;
+
+  if (!YourName || !YourEmail || !Subject || !Message) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  try {
+    const contact = new ContectUs({
+      YourName,
+      YourEmail,
+      Subject,
+      Message,
+    });
+
+    await contact.save();
+
+    // Set up the transporter
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.MAIL_USER,     // your Gmail address from .env
+        pass: process.env.MAIL_PASS,     // app-specific password or real password
+      },
+    });
+    // Define the email options
+    const mailOptions = {
+      from: `"Gourmet Bazar" <${process.env.MAIL_USER}>`,
+      to: YourEmail,  // sending to user or your admin email
+      subject: `Thank you for contacting us, ${YourName}`,
+      html: `
+        <h3>Hello, ${YourName}</h3>
+        <p>We received your message:</p>
+        <blockquote>${Message}</blockquote>
+        <p>We'll get back to you shortly.</p>
+        <hr />
+        <p><strong>Subject:</strong> ${Subject}</p>
+        <p><strong>Email:</strong> ${YourEmail}</p>
+      `,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({ message: `Email sent to ${YourEmail}` });
+  } catch (error) {
+    console.error("Contact form error:", error);
+    return res.status(500).json({
+      error: "Server error during contact submission.",
+      details: error.message,
+    });
+  }
+});
+    // Check if the email OTP has been verified
 server.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import Header from "../header/header";
 import HeroCarousel from "../carousel/carousel";
@@ -6,6 +7,15 @@ import Productgried from "../product-grid/productgried";
 import Banner from "../banner/banner";
 import Footer from "../footer/footer";
 
+=======
+import React from 'react'
+import Header from '../header/header'
+import HeroCarousel from '../carousel/carousel'
+import Categories from '../Categories/Categories'
+import Productgried from '../product-grid/productgried'
+import Banner from '../banner/banner'
+import Footer from '../footer/footer'
+>>>>>>> c407321773741a6e3f0cb82a5c7a6e0cddf13290
 export const Home = () => {
   return (
     <div>
@@ -47,5 +57,15 @@ export const Home = () => {
       {/* footer */}
       <Footer />
     </div>
+<<<<<<< HEAD
   );
 };
+=======
+    <Categories/>
+    <Productgried/>
+     <Banner/>
+    <Footer/>
+    </div>
+  )
+}
+>>>>>>> c407321773741a6e3f0cb82a5c7a6e0cddf13290

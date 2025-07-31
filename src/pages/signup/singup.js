@@ -7,7 +7,6 @@ import Header from '../../component/header/header';
 const API_BASE_URL = "http://localhost:5000";
 
 const OtpSignupForm = () => {
-
     const [step, setStep] = useState(1);
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
@@ -93,7 +92,7 @@ const OtpSignupForm = () => {
 
             const res = await axios.post(`${API_BASE_URL}/signup`, {
                 ...formData,
-                role: formData.role?.toLowerCase() || 'user',
+                role:'User',
             });
             setMessage(res.data.message);
         } catch (err) {

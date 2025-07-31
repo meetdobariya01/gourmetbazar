@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 // import App from './App';
 import reportWebVitals from "./reportWebVitals";
-import { Header } from "./component/header/header";
+// import { Header } from "./component/header/header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Home } from "./component/home/home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -16,7 +16,18 @@ import Termsandcondition from "./pages/terms-condition/termsandcondition";
 import Faqs from "./pages/faqs/faqs";
 import Checkout from "./pages/checkout/checkout";
 import Product from "./pages/product/product";
+<<<<<<< HEAD
 import Categories from "./component/Categories/Categories";
+=======
+import SearchResults from '../src/pages/SearchResults.js/SearchResults';
+// REMOVE this line if not used
+// import Header from '../src/component/header/header';
+
+
+import Collection from "./pages/collection/collection";
+import Cart from "./pages/crat/cart";
+import Orderconfirmed from "./pages/orderconfirmed/orderconfirmed";
+>>>>>>> c407321773741a6e3f0cb82a5c7a6e0cddf13290
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -33,7 +44,14 @@ root.render(
       <Route path="/faqs" element={<Faqs />} />
       <Route path="/checkout" element={<Checkout/>} />
       <Route path="/product" element={<Product/>} />
+<<<<<<< HEAD
       <Route path="/categories" element={<Categories/>} />
+=======
+      <Route path="/collection" element={<Collection/>} />
+      <Route path="/cart" element={<Cart/>} />
+      <Route path="/orderconfirmed" element={<Orderconfirmed/>} />
+
+>>>>>>> c407321773741a6e3f0cb82a5c7a6e0cddf13290
     </Routes>
   </Router>
 );
