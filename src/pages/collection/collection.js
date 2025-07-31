@@ -1,43 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
-<<<<<<< HEAD
 import axios from "axios";
-=======
 import Header from "../../component/header/header";
 import Footer from "../../component/footer/footer";
-
-const expensiveProducts = [
-  {
-    id: 1,
-    title: "Aluminum Herb Crusher",
-    desc: "1 unit",
-    price: 1200,
-    image: "image/ladies-finger.jpg",
-  },
-  {
-    id: 2,
-    title: "Premium Cigarette Holder",
-    desc: "1 piece",
-    price: 1800,
-    image: "image/ladies-finger.jpg",
-  },
-  {
-    id: 3,
-    title: "Luxury Storage Container",
-    desc: "1 unit",
-    price: 2400,
-    image: "image/ladies-finger.jpg",
-  },
-  {
-    id: 4,
-    title: "Metallic Herb Grinder",
-    desc: "1 piece",
-    price: 1999,
-    image: "image/ladies-finger.jpg",
-  },
-];
->>>>>>> a7d95d1 (add new file)
 
 export const Collection = () => {
   const { categorySlug } = useParams();
@@ -48,7 +14,6 @@ export const Collection = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Convert slug to proper category format: "milky-mist-dairy" → "milky mist dairy"
         const formattedCategory = categorySlug.replace(/-/g, " ").toLowerCase();
 
         const response = await axios.get(
@@ -73,7 +38,6 @@ export const Collection = () => {
 
   return (
     <div>
-      {/* header import */}
       <Header />
 
       <Container className="py-4">
@@ -107,18 +71,11 @@ export const Collection = () => {
                     <Card.Title style={{ fontSize: "1rem" }}>
                       {product.FoodName}
                     </Card.Title>
-                    <Card.Text
-                      className="text-muted"
-                      style={{ fontSize: "0.85rem" }}
-                    >
+                    <Card.Text className="text-muted" style={{ fontSize: "0.85rem" }}>
                       {product.Description}
                     </Card.Text>
                     <h6 className="mb-2">₹{product.FoodPrice.toLocaleString()}</h6>
-                    <Button
-                      variant="outline-success"
-                      size="sm"
-                      className="w-100"
-                    >
+                    <Button variant="outline-success" size="sm" className="w-100">
                       ADD
                     </Button>
                   </Card.Body>
@@ -130,16 +87,11 @@ export const Collection = () => {
 
         <Modal show={show} onHide={handleClose} centered animation>
           <Modal.Body className="p-0">
-            <img
-              src={selectedImage}
-              alt="Product"
-              className="img-fluid w-100"
-            />
+            <img src={selectedImage} alt="Product" className="img-fluid w-100" />
           </Modal.Body>
         </Modal>
       </Container>
 
-      {/* footer */}
       <Footer />
     </div>
   );
