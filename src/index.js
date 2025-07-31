@@ -16,7 +16,8 @@ import Termsandcondition from "./pages/terms-condition/termsandcondition";
 import Faqs from "./pages/faqs/faqs";
 import Checkout from "./pages/checkout/checkout";
 import Product from "./pages/product/product";
-import Categories from "./pages/categoriespage/categories";
+
+import Collection from "./pages/collection/collection";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -33,7 +34,7 @@ root.render(
       <Route path="/faqs" element={<Faqs />} />
       <Route path="/checkout" element={<Checkout/>} />
       <Route path="/product" element={<Product/>} />
-      <Route path="/categories" element={<Categories/>} />
+      <Route path="/collection" element={<Collection/>} />
 
     </Routes>
   </Router>
