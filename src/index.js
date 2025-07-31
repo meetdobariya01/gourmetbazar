@@ -18,6 +18,8 @@ import Checkout from "./pages/checkout/checkout";
 import Product from "./pages/product/product";
 
 import Collection from "./pages/collection/collection";
+import Cart from "./pages/crat/cart";
+import Orderconfirmed from "./pages/orderconfirmed/orderconfirmed";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -35,6 +37,8 @@ root.render(
       <Route path="/checkout" element={<Checkout/>} />
       <Route path="/product" element={<Product/>} />
       <Route path="/collection" element={<Collection/>} />
+      <Route path="/cart" element={<Cart/>} />
+      <Route path="/orderconfirmed" element={<Orderconfirmed/>} />
 
     </Routes>
   </Router>

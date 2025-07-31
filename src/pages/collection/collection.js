@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
+import Header from "../../component/header/header";
+import Footer from "../../component/footer/footer";
 
 const expensiveProducts = [
   {
@@ -44,6 +46,9 @@ export const Collection = () => {
   const handleClose = () => setShow(false);
   return (
     <div>
+      {/* header import */}
+      <Header />
+
       <Container className="py-4">
         <Row xs={2} sm={2} md={3} lg={4} className="g-3">
           {expensiveProducts.map((product) => (
@@ -94,6 +99,9 @@ export const Collection = () => {
           </Modal.Body>
         </Modal>
       </Container>
+
+      {/* footer */}
+      <Footer />
     </div>
   );
 };
