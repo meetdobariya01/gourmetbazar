@@ -206,3 +206,25 @@
     transform: scale(1);
   }
 }
+/* searchbar */
+.search-form .search-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.animated-search {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 50px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+.animated-search:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+  border-color: #007bff;
+  transform: scale(1.02);
+}

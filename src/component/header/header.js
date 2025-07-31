@@ -12,27 +12,27 @@ import {
   Button,
 } from "react-bootstrap";
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = "http://localhost:5000";
 
 const Header = () => {
-  const email = localStorage.getItem('email');
-  const initial = email ? email.charAt(0).toUpperCase() : '';
+  const email = localStorage.getItem("email");
+  const initial = email ? email.charAt(0).toUpperCase() : "";
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${API_BASE}/categories`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setCategories)
       .catch(console.error);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
-    localStorage.removeItem('role');
-    window.location.href = '/login';
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    localStorage.removeItem("role");
+    window.location.href = "/login";
   };
 
   const handleSearch = (e) => {
@@ -43,7 +43,13 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar expand="lg" bg="info" variant="dark" sticky="top" className="py-3">
+      <Navbar
+        expand="lg"
+        bg="info"
+        variant="dark"
+        sticky="top"
+        className="py-3"
+      >
         <Container fluid>
           <Navbar.Brand as={Link} to="/" className="fw-bold">
             <img
@@ -55,7 +61,10 @@ const Header = () => {
 
           <Navbar.Toggle aria-controls="main-navbar" />
           <Navbar.Collapse id="main-navbar">
-            <Form className="d-flex flex-grow-1 mx-lg-3 my-3 my-lg-0" onSubmit={handleSearch}>
+            <Form
+              className="d-flex flex-grow-1 mx-lg-3 my-3 my-lg-0"
+              onSubmit={handleSearch}
+            >
               <FormControl
                 type="search"
                 value={searchQuery}
@@ -71,29 +80,48 @@ const Header = () => {
             <Nav className="ms-auto align-items-center">
               <NavDropdown title="Categories" id="categories-dropdown">
                 {categories.map((cat, index) => {
-                  const slug = cat.toLowerCase().replace(/\s+/g, '-');
+                  const slug = cat.toLowerCase().replace(/\s+/g, "-");
                   return (
-                    <NavDropdown.Item key={index} as={Link} to={`/category/${slug}`}>
+                    <NavDropdown.Item
+                      key={index}
+                      as={Link}
+                      to={`/category/${slug}`}
+                    >
                       {cat}
                     </NavDropdown.Item>
                   );
                 })}
               </NavDropdown>
 
-              <Nav.Link as={Link} to="/aboutus">About Us</Nav.Link>
-              <Nav.Link as={Link} to="/contactus">Contact Us</Nav.Link>
+              <Nav.Link as={Link} to="/aboutus">
+                About Us
+              </Nav.Link>
+              <Nav.Link as={Link} to="/contactus">
+                Contact Us
+              </Nav.Link>
 
-              <NavDropdown title="Pages" id="pages-dropdown">
+              <NavDropdown title="Other" id="pages-dropdown">
                 <NavDropdown.Item href="#offers">Offers</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/privacypolicy">Privacy Policy</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/termsandconditions">Terms & Conditions</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/privacypolicy">
+                  Privacy Policy
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/termsandconditions">
+                  Terms & Conditions
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/faqs">
+                  FAQs
+                </NavDropdown.Item>
               </NavDropdown>
 
               <Nav.Link className="d-none d-lg-block">
                 <i className="bi bi-bell fs-5"></i>
               </Nav.Link>
 
-              <Nav.Link className="d-none d-lg-block position-relative">
+              <Nav.Link
+                as={Link}
+                to="/cart"
+                className="d-none d-lg-block position-relative"
+              >
                 <i className="bi bi-cart fs-5"></i>
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   0
@@ -104,17 +132,17 @@ const Header = () => {
                 title={
                   <div
                     style={{
-                      width: '35px',
-                      height: '35px',
-                      backgroundColor: '#ffffff',
-                      color: '#198754',
-                      fontWeight: 'bold',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      border: '2px solid #198754',
-                      fontSize: '16px'
+                      width: "35px",
+                      height: "35px",
+                      backgroundColor: "#ffffff",
+                      color: "#198754",
+                      fontWeight: "bold",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      border: "2px solid #198754",
+                      fontSize: "16px",
                     }}
                   >
                     {initial || <i className="bi bi-person"></i>}
@@ -124,9 +152,21 @@ const Header = () => {
                 align="end"
                 className="d-none d-lg-block"
               >
-                {!email && <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>}
-                {!email && <NavDropdown.Item as={Link} to="/signup">Signup</NavDropdown.Item>}
-                {email && <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>}
+                {!email && (
+                  <NavDropdown.Item as={Link} to="/login">
+                    Login
+                  </NavDropdown.Item>
+                )}
+                {!email && (
+                  <NavDropdown.Item as={Link} to="/signup">
+                    Signup
+                  </NavDropdown.Item>
+                )}
+                {email && (
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
+                )}
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
